@@ -52,11 +52,11 @@ For now. the complete code cannot be shared, but I'll present project details an
 
 - parallel parking
 
-<img src="imgs/parallel.png" alt="parallel" style="zoom: 40%;" />
+<img src="imgs/parallel.png" alt="parallel" style="zoom: 20%;" />
 
 - vertical parking
 
-<img src="imgs/vertical.png" alt="vertical" style="zoom:40%;" />
+<img src="imgs/vertical.png" alt="vertical" style="zoom:20%;" />
 
 
 
