@@ -23,11 +23,21 @@ For now. the complete code cannot be shared, but I'll present project details an
 
   <img src="imgs/vehicle.png" alt="image-20230705145043492" style="zoom:80%;" />
 
+  transition function:
+  $$
+  \left[\begin{array}{c}
+  \dot{x}\\\dot{y}\\\dot{\theta}
+  \end{array}\right]=
+  \left[\begin{array}{c}
+  v\cdot\cos\theta\\v\cdot\sin\theta\\v\cdot\tan\varphi/L
+  \end{array}\right]
+  $$
+
 - vehicle parameters: length, width, axle to rear bumper, wheelbase
 
 - state space
 
-  The environment context for parking is embedded in the RL environment, so the information of parking lot is not included in states.
+  Here, $v, \varphi$ are augumented to the state vector. We use their increments as the action to improve the smoothness of control.
   
   | variable  |  description   |        range        |
   | :-------: | :------------: | :-----------------: |
@@ -52,11 +62,11 @@ For now. the complete code cannot be shared, but I'll present project details an
 
 - parallel parking
 
-<img src="imgs/parallel.png" alt="parallel" style="zoom: 10%;" />
+<img src="imgs/parallel.png" alt="parallel" style="zoom: 30%;" />
 
 - vertical parking
 
-<img src="imgs/vertical.png" alt="vertical" style="zoom:10%;" />
+<img src="imgs/vertical.png" alt="vertical" style="zoom:30%;" />
 
 
 
@@ -85,6 +95,20 @@ For now. the complete code cannot be shared, but I'll present project details an
   - time limit penalty: -10
   - success reward: 10
 
+- terminal reward shaping
+  $$
+  cost=(e_x + e_y + e_\theta) \times 5\\
+  reward=10-cost
+  $$
+
+**Note**: Why is the penalty for travel distance **unnecessary**? - discount factor $\gamma$.
+
+Recall objective function for RL: 
+$$
+\mathbb{E}_{\tau\sim p_\theta(\tau)}\{R(\tau)\}\\
+R(\tau)=r_0+\gamma\cdot r_1 + \gamma^2\cdot r_2 + \dots + \gamma^T\cdot r_T\\
+r_0=r_1=\dots r_{T-1}=0,\quad r_T \text{ is the terminal reward.}\quad \gamma<1
+$$
 
 
 ## Main Challenge
@@ -107,11 +131,39 @@ For now. the complete code cannot be shared, but I'll present project details an
     <img src="imgs/jsrl.gif" style="zoom: 50%;" />
 
 
+## Implementation details
 
-## Current Results
+#### Algorithm: Proximal Policy Optimization (PPO)
 
-<img src="imgs/eval1.png" style="zoom:36%;" />
+- developed by OpenAI; used in training ChatGPT (RL from human feedback)
 
-<img src="imgs/eval3.png" style="zoom:36%;" />
+- on-policy RL; actor-critic architecture
 
-<img src="imgs/eval4.png" style="zoom:36%;" />
+#### Jump start
+
+- for vertical: Initialize the system in the states that are easy to park based on our prior knowledge.
+- for parallel: start at the goal state and iteratively expand the start state distribution, assuming reversible dynamic.
+
+
+
+## Visualization
+
+#### vertical parking
+
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="imgs/videos/vertical1.gif" alt="vertical1" style="zoom: 67%;" /> | <img src="imgs/videos/vertical3.gif" alt="vertical3" style="zoom: 67%;" /> |
+|                                                              |                                                              |
+| <img src="imgs/videos/vertical4.gif" alt="vertical4" style="zoom: 67%;" /> | <img src="imgs/videos/vertical8.gif" alt="vertical8" style="zoom:67%;" /> |
+|                                                              |                                                              |
+| <img src="imgs/videos/vertical11.gif" alt="vertical11" style="zoom:67%;" /> | <img src="imgs/videos/vertical10.gif" alt="vertical10" style="zoom:67%;" /> |
+
+
+
+#### parallel parking
+
+|                                                              |                                                              |
+| ------------------------------------------------------------ | ------------------------------------------------------------ |
+| <img src="imgs/videos/parallel1.gif" alt="parallel1" style="zoom:67%;" /> | <img src="imgs/videos/parallel2.gif" alt="parallel2" style="zoom:67%;" /> |
+
+
