@@ -96,19 +96,19 @@ For now. the complete code cannot be shared, but I'll present project details an
   - success reward: 10
 
 - terminal reward shaping
-  $$
+  ```math
   cost=(e_x + e_y + e_\theta) \times 5\\
   reward=10-cost
-  $$
+  ```
 
 **Note**: Why is the penalty for travel distance **unnecessary**? - discount factor $\gamma$.
 
 Recall objective function for RL: 
-$$
+```math
 \mathbb{E}_{\tau\sim p_\theta(\tau)}\{R(\tau)\}\\
 R(\tau)=r_0+\gamma\cdot r_1 + \gamma^2\cdot r_2 + \dots + \gamma^T\cdot r_T\\
 r_0=r_1=\dots r_{T-1}=0,\quad r_T \text{ is the terminal reward.}\quad \gamma<1
-$$
+```
 
 
 ## Main Challenge
