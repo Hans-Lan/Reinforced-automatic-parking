@@ -24,14 +24,14 @@ For now. the complete code cannot be shared, but I'll present project details an
   <img src="imgs/vehicle.png" alt="image-20230705145043492" style="zoom:80%;" />
 
   transition function:
-  $$
+  ```math
   \left[\begin{array}{c}
   \dot{x}\\\dot{y}\\\dot{\theta}
   \end{array}\right]=
   \left[\begin{array}{c}
   v\cdot\cos\theta\\v\cdot\sin\theta\\v\cdot\tan\varphi/L
   \end{array}\right]
-  $$
+  ```
 
 - vehicle parameters: length, width, axle to rear bumper, wheelbase
 
@@ -97,7 +97,9 @@ For now. the complete code cannot be shared, but I'll present project details an
 
 - terminal reward shaping
   ```math
-  cost=(e_x + e_y + e_\theta) \times 5\\
+  cost=(e_x + e_y + e_\theta) \times 5
+  ```
+  ```math
   reward=10-cost
   ```
 
@@ -105,8 +107,12 @@ For now. the complete code cannot be shared, but I'll present project details an
 
 Recall objective function for RL: 
 ```math
-\mathbb{E}_{\tau\sim p_\theta(\tau)}\{R(\tau)\}\\
-R(\tau)=r_0+\gamma\cdot r_1 + \gamma^2\cdot r_2 + \dots + \gamma^T\cdot r_T\\
+\mathbb{E}_{\tau\sim p_\theta(\tau)}\{R(\tau)\}
+```
+```math
+R(\tau)=r_0+\gamma\cdot r_1 + \gamma^2\cdot r_2 + \dots + \gamma^T\cdot r_T
+```
+```math
 r_0=r_1=\dots r_{T-1}=0,\quad r_T \text{ is the terminal reward.}\quad \gamma<1
 ```
 
